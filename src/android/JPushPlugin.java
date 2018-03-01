@@ -101,10 +101,11 @@ public class JPushPlugin extends CordovaPlugin {
         instance = null;
     }
 
-    private static JSONObject getMessageObject(String message, Map<String, Object> extras) {
+    private static JSONObject getMessageObject(String title, String message, Map<String, Object> extras) {
         JSONObject data = new JSONObject();
         try {
             data.put("message", message);
+            data.put("title", title);
             JSONObject jExtras = new JSONObject();
             for (Entry<String, Object> entry : extras.entrySet()) {
                 if (entry.getKey().equals("cn.jpush.android.EXTRA")) {
@@ -168,11 +169,11 @@ public class JPushPlugin extends CordovaPlugin {
         return data;
     }
 
-    static void transmitMessageReceive(String message, Map<String, Object> extras) {
+    static void transmitMessageReceive(String title, String message, Map<String, Object> extras) {
         if (instance == null) {
             return;
         }
-        JSONObject data = getMessageObject(message, extras);
+        JSONObject data = getMessageObject(title, message, extras);
         String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         cordovaActivity.runOnUiThread(new Runnable() {

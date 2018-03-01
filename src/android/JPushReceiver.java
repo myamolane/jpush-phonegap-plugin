@@ -38,8 +38,9 @@ public class JPushReceiver extends BroadcastReceiver {
 
     private void handlingMessageReceive(Intent intent) {
         String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
+        String title = intent.getStringExtra(JPushInterface.EXTRA_TITLE);
         Map<String, Object> extras = getNotificationExtras(intent);
-        JPushPlugin.transmitMessageReceive(msg, extras);
+        JPushPlugin.transmitMessageReceive(title, msg, extras);
     }
 
     private void handlingNotificationOpen(Context context, Intent intent) {
